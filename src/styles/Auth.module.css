@@ -1,0 +1,127 @@
+.auth_container {
+    height: 96vh;
+    width: 100%;
+    position: relative;
+}
+.auth_section {
+    padding: 5px;
+    min-height: 350px;
+    max-width: 700px;
+    background-color: #fefefe;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.auth_left_section{
+    padding: 20px;
+    height: inherit;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    
+}
+.auth_heading{
+    margin: 20px auto 10px auto;
+}
+.auth_heading .MuiAvatar-root{
+    text-align: center;
+    background-color: black;
+}
+.auth_left_section > p{
+    margin: 0;
+}
+.stack_avatars > {
+    margin: 30px 10px;
+}
+.auth_right_section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgb(169, 204, 224);
+    border-radius: 5px;
+}
+.auth_oauth_section{
+    margin: 20px 0;
+    padding: 30px;
+}
+.auth_oauth_title{
+    display: block;
+    font-weight: 900;
+}
+.google_oauth_btn{
+    /* min-width: 100px; */
+    display: flex;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;;
+    justify-content: center;
+    border-radius: 50px;
+    background-color: #fefefe;
+    cursor: pointer;
+    align-items: center;
+}
+.google_oauth_btn > *{
+    margin: 5px;
+    padding: 5px;
+}
+
+.google_oauth_btn> p{
+    font-size: 0.8rem;
+}
+
+.auth_modal_container{
+    max-width: 400px;
+    background-color: white;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.auth_modal_selection{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+.auth_modal_option{
+    cursor: pointer;
+    margin: 0;
+}
+.auth_modal_option p{
+    margin: 7px;
+}
+.auth_form_container{
+    padding: 10px;
+}
+.auth_form_label{
+    margin: 10px 0;
+}
+.auth_form_label label{
+    font-size: 0.8rem;
+}
+.auth_form_label input{
+    padding: 13px !important;
+    font-size: 0.8rem;
+}
+.auth_form_label input::placeholder {
+    font-size: 0.8rem;
+}
+.auth_submit_btn{
+    background-color: rgb(169, 204, 224) !important;
+    padding: 13px !important;
+    font-weight: 600 !important;
+    color: white !important;
+}
+
+@media (max-width: 600px) {
+    .auth_oauth_title{
+        display: none;
+        
+    }
+    .auth_section {
+        flex-flow: column;
+        min-width: 300px;
+    }
+}
