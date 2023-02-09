@@ -10,6 +10,7 @@ import axios from '../../environment/axios'
 import Modal from 'components/Modal/Modal';
 import AuthIndex from './AuthIndex';
 
+
 function Authentication(props: any) {
     const [auth, setAuth] = useState(true);
 
