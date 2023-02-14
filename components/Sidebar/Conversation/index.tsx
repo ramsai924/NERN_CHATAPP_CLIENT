@@ -55,6 +55,7 @@ function Conversation(props: any) {
             )
           }
         <div className={styles.sidebar_container_left}>
+            {/* header section  */}
           <div className={styles.sidebar_header}>
               <img src={img} alt="" referrerPolicy={"no-referrer"} style={{display:'none'}}/>
              
@@ -70,10 +71,14 @@ function Conversation(props: any) {
                   <MoreVertIcon />
               </div>
           </div>
+          
+          {/* search user and chat section  */}
           <Search 
             placeholderText="search user and chat" 
             searchFunction={() => {}} 
            />
+
+           {/* conversation list section */}
           <List conversationList={conversationList} styles={styles} />
       </div>
       </>

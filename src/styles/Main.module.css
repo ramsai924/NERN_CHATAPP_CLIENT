@@ -1,7 +1,7 @@
 .main_container{
     height: 100vh;
     display: grid;
-    grid-template-rows: 64px 480px 1fr;
+    grid-template-rows: 64px 1fr 64px;
 }
 .main_header{
     display: flex;
@@ -61,21 +61,26 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    width: auto;
 }
-.main_chat_body > .chat_context:nth-child(1){
-    margin-top: 8px;
-}
+
 .chat_context{
     /* align-self: ; */
     padding: 8px;
     max-width: 410px;
     background-color: white;
     margin: 3px 10px;
+    position: relative;
     border-radius: 5px;
+}
+.main_chat_body>.chat_context:nth-child(1) {
+    margin-top: 8px;
 }
 .chat_context_data{
     display: flex;
     justify-content: space-between;
+    width: auto;
+    position: relative;
 }
 .chat_context_data > p:nth-child(1){
     width: 350px;

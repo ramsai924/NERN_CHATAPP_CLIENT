@@ -41,7 +41,8 @@ function SearchandChat(props: any) {
     console.log('data', data)
     let conversationBody = {
       type: 'PRIVATE',
-      users: [userdatas._id, data._id]
+      users: [userdatas._id, data._id],
+      createdBy: userdatas._id
     }
 
     axios.post('/create-conversation', conversationBody).then((res: any) => {
