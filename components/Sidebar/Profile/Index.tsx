@@ -2,10 +2,13 @@ import { Avatar } from '@material-ui/core';
 import React from 'react'
 import { BiArrowBack } from 'react-icons/bi'
 import { MdEdit } from 'react-icons/md'
+import AppContext from '../../Context/AppContext'
+
 
 function Profile(props: any) {
-    const { styles, onChangeSidebarType } = props;
-
+  const { styles, onChangeSidebarType } = props;
+  const context: any = React.useContext(AppContext)
+  const { user } = context
   return (
     <div className={styles.profile_container}>
           <div className={styles.profile_header}>
@@ -23,7 +26,7 @@ function Profile(props: any) {
               <h4>Your Name</h4>
               <hr />
               <div className={styles.profile_name}>
-                <p>Ramsai</p>
+                <p>{user?.firstName} {user?.lastName}</p>
                 <div>
                     <MdEdit />
                 </div>

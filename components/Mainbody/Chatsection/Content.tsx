@@ -1,13 +1,14 @@
+import moment from 'moment';
 import React from 'react'
 import styles from '../../../src/styles/Main.module.css'
 
 function Content(prop: any) {
-    const { data  } = prop;
+    const { msgData, user  } = prop;
   return (
-      <div className={styles.chat_context} style={{ alignSelf: `${true ? 'flex-end' : 'flex-start'}` }}>
+      <div className={styles.chat_context} style={{ alignSelf: `${msgData?.userId === user?._id ? 'flex-end' : 'flex-start'}` }}>
           <div className={styles.chat_context_data}>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt eligendi possimus sunt maxime, esse in?</p>
-              <p>2:00 pm</p>
+              <p>{msgData?.content}</p>
+              <p>{moment(msgData?.createdAt).format('LT')}</p>
           </div>
       </div>
   )

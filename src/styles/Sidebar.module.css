@@ -20,7 +20,14 @@
     margin: 10px;
     cursor: pointer;
 }
-
+.more_options_Popup{
+    text-align: center;
+    margin: 0;
+}
+.more_options_Popup p{
+    margin: 10px 0;
+    cursor: pointer;
+}
 .sidebar_search{
     display: flex;
     justify-content: space-evenly;
@@ -97,4 +104,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+/* group create popup  */
+.create_group_container{
+    max-width: 400px;
+    background-color: aliceblue;
+    padding: 5px;
+    border-radius: 5px;
 }

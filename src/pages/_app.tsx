@@ -7,14 +7,15 @@ import Appcontext from 'components/Context/AppContext'
 import {useRouter} from 'next/router'
 import Cookies from 'js-cookie'
 import io from 'socket.io-client'
+import axios from '../../environment/axios'
 
 const socket = io('http://localhost:3030')
 
 export default function App({ Component, pageProps }: any) {
   const [userData, setUserData] = React.useState<any>(null || undefined)
+  const [conversationList, setUserConversationList] = React.useState<any>([])
   const history = useRouter();
   const [loadStatus, setLoadStatus] = React.useState(false)
-  console.log('history', history)
   const setTokenExpire = (time: any) => {
     const timeOut: any = Math.ceil(new Date(Number(time) * 1000).getTime() - new Date().getTime());
     
@@ -34,6 +35,15 @@ export default function App({ Component, pageProps }: any) {
   
     setUserData(data)
     setTokenExpire(exp)
+  }
+
+  const getUserConversationList = (user: any) => {
+    axios.get(`/get-user-conversations/${user}`).then((res: any) => {
+      if (res.data.success) {
+        const { conversations } = res.data.data;
+        setUserConversationList([...conversations])
+      }
+    })
   }
 
 
@@ -82,7 +92,7 @@ export default function App({ Component, pageProps }: any) {
   
   return (
     <>
-      <Appcontext.Provider value={{ socket: socket, user: userData, setUserDatafromServer }}>
+      <Appcontext.Provider value={{ getUserConversationList, conversationList, socket: socket, user: userData, setUserDatafromServer }}>
       <div className='main_container'>
         <div className='sidebar_container'>
           <Sidebar userData={userData} />

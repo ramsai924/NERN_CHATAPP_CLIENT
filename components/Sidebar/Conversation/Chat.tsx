@@ -16,18 +16,23 @@ function Chat(props: any) {
 
  React.useEffect(() => {
    if (type === 'CONVERSATION_LIST') {
-     const { users, topChat } = data;
+     const { users, topChat, name } = data;
      const localData: any = localStorage.getItem("USER")
      const getUserData: any = JSON.parse(localData);
+     setContent(topChat === null ? '' : topChat?.content)
+     if (data?.type === 'GROUP'){
+       setName(name)
+     }else{
+       users.forEach((user: any) => {
+         if (user._id.toString() !== getUserData._id.toString()) {
+           console.log('first', user)
+           setName(user.firstName)
+           setProfile(user.avatar.location)
+           
+         }
+       })
+     }
      
-     users.forEach((user: any) => {
-       if (user._id.toString() !== getUserData._id.toString()){
-        console.log('first', user)
-         setName(user.firstName)
-         setProfile(user.avatar.location)
-         setContent(topChat === null ? '' : topChat?.content)
-       }
-     })
    }
 
    if (type === 'SEARCH_LIST'){
@@ -42,12 +47,13 @@ function Chat(props: any) {
   return (
     <div className={styles.chat_container} onClick={onclickHandlerFun}>
         <div className={styles.chat_avatar_content}>
-            <Avatar src={profile} />
+        {type === 'SEARCH_LIST' && <Avatar src={profile} />}
+        {type === 'CONVERSATION_LIST' && (data.type === 'PRIVATE' ? <Avatar src={profile} /> : 'GROUP')}
             <div className={styles.name_and_content}>
                   <p>{name}</p>
                   {
                     content && (contentTxt === '' ? <p style={{fontStyle: 'italic'}}>Draft</p> : (
-                      <p>Hello hi how are you testing ?</p>
+                      <p>{contentTxt}</p>
                     ))
                   }
             </div>
@@ -55,17 +61,7 @@ function Chat(props: any) {
         {
           time && (
           <div className={styles.conversation_time}>
-            {
-              
-              data.topChat === null ? (
-                  <>
-                    <TimeFormater date={data?.createdAt}/>
-                  </>
-              ) : (
-                <p>3:00 PM</p>
-              )
-            }
-            
+            <TimeFormater date={data?.updatedAt} />
           </div>
           )
         }

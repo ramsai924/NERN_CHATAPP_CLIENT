@@ -19,36 +19,51 @@ function List(props: any) {
           {
             conversationList.length > 0 ? (
             conversationList.map((conversation: any, index: any) =>{
-              if (conversation?.createdBy?._id === user?._id){
-                if (conversation?.topChat === null || conversation?.topChat !== null){
-                  return (
-                    <Chat
-                      data={conversation}
-                      key={index}
-                      index={index}
-                      type="CONVERSATION_LIST"
-                      time={true}
-                      content={true}
-                      functionality="GOTO_CONVERSATION"
-                      functionCall={navigateConversation}
-                    />
-                  )
+              if(conversation?.type === 'PRIVATE'){
+                if (conversation?.createdBy?.find((usr: any) => usr?._id === user?._id)) {
+                  if (conversation?.topChat === null || conversation?.topChat !== null) {
+                    return (
+                      <Chat
+                        data={conversation}
+                        key={index}
+                        index={index}
+                        type="CONVERSATION_LIST"
+                        time={true}
+                        content={true}
+                        functionality="GOTO_CONVERSATION"
+                        functionCall={navigateConversation}
+                      />
+                    )
+                  }
+                } else {
+                  if (conversation?.topChat !== null) {
+                    return (
+                      <Chat
+                        data={conversation}
+                        key={index}
+                        index={index}
+                        type="CONVERSATION_LIST"
+                        time={true}
+                        content={true}
+                        functionality="GOTO_CONVERSATION"
+                        functionCall={navigateConversation}
+                      />
+                    )
+                  }
                 }
               }else{
-                if (conversation?.topChat !== null) {
-                  return (
-                    <Chat
-                      data={conversation}
-                      key={index}
-                      index={index}
-                      type="CONVERSATION_LIST"
-                      time={true}
-                      content={true}
-                      functionality="GOTO_CONVERSATION"
-                      functionCall={navigateConversation}
-                    />
-                  )
-                }
+                return (
+                  <Chat
+                    data={conversation}
+                    key={index}
+                    index={index}
+                    type="CONVERSATION_LIST"
+                    time={true}
+                    content={true}
+                    functionality="GOTO_CONVERSATION"
+                    functionCall={navigateConversation}
+                  />
+                )
               }
             })
               ) : (

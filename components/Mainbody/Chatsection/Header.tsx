@@ -1,44 +1,52 @@
 import { Avatar } from '@material-ui/core';
 import React from 'react'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import SendChat from './FooterInput';
-import ContextBody from './ContextBody';
 import Appcontext from 'components/Context/AppContext'; 
 import styles from '../../../src/styles/Main.module.css'
- 
+import moment from 'moment';
+import TimeFormater from 'components/Reuse/TimeFormater';
+
 function ChatsectionHeader(props: any) {
-    const context = React.useContext(Appcontext)
+    const context: any = React.useContext(Appcontext)
     const [isOnline, setIsOnline] = React.useState(false);
+    const [lastSeen, setLastSeen] = React.useState(null);
+
     const { socket, user } = context;
-    // console.log('context', context)
+    const { chatUser } = props;
 
     React.useEffect(() => {
-        if (user){
-            socket.on(`user_online_63e52d739d7160c486120349`, (data: any) => {
+        if (chatUser){
+            const { lastseen } = chatUser;
+            setLastSeen(lastseen)
+
+            socket.on(`user_online_${chatUser?._id}`, (data: any) => {
                 console.log('sockket_', data)
                 const { userStatus  } = data;
                 setIsOnline(userStatus)
             })
+
+            socket.on(`user_offline_${chatUser?._id}`, (data: any) => {
+                console.log('sockket_', data)
+                const { userStatus, dateTime } = data;
+                setLastSeen(dateTime)
+                setIsOnline(userStatus)
+            })
         }
-    }, [user])
+    }, [chatUser])
 
   return (
-    <div className={styles.main_container}>
-        <div className={styles.main_header}>
+    <div className={styles.main_header}>
             <div className={styles.main_profile_avatar} >
                 <Avatar />
                 <div className={styles.main_name_and_content}>
-                    <p>Ramsai</p>
-                    {isOnline && <p>Online</p>}
+                  <p>{chatUser?.firstName} {chatUser?.lastName}</p>
+                  {isOnline ? <p>Online</p> : lastSeen && <TimeFormater date={lastSeen} chatType="CONVERSATION_DATA" />}
                 </div>
             </div>
             <div className={styles.main_conversation_header_navigation}>
                 <MoreVertIcon />
             </div>
         </div>
-        <ContextBody styles={styles} />
-        <SendChat styles={styles}/>
-    </div>
   )
 }
 
