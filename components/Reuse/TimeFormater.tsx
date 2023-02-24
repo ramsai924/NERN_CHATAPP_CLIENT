@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 
 function TimeFormater(props: any) {
-    const { date } = props;
+    const { date, chatType } = props;
     const [curDate, setCurDate] = React.useState(0);
 
     const daysDifference = (date1: any, date2: any) => {
@@ -18,13 +18,15 @@ function TimeFormater(props: any) {
     }, [date])
 
   return (
-      <p>{new Date().toDateString() === new Date(curDate).toDateString()
+      <p>{chatType === "CONVERSATION_DATA" && "Last seen "}
+        {new Date().toDateString() === new Date(curDate).toDateString()
           ? moment(curDate).format('LT') :
           daysDifference(new Date(), curDate) === 1 ? 
           moment().subtract(daysDifference(new Date(), curDate), 'days').calendar()
               : daysDifference(new Date(), curDate) < 7 ? moment(curDate).format('dddd') 
               : moment(curDate).format('L')
-      }</p>
+        }
+      </p>
   )
 }
 

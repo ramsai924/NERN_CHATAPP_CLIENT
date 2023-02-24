@@ -16,6 +16,7 @@ export default function Home(props: any) {
           <ModalHeader title="Add new user" />
         </div>
       </Modal> */}
+      <p>Index page start to chat</p>
     </>
   )
 }

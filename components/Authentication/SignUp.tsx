@@ -2,7 +2,10 @@ import React from 'react'
 import styles from '../../src/styles/Auth.module.css'
 import { Button } from '@material-ui/core'
 import { TextField } from '@mui/material'
-
+import axios from '../../environment/axios'
+import Appcontext from 'components/Context/AppContext'
+import { useRouter } from 'next/router'
+import Cookie from 'js-cookie'
 interface signupProps {
     email: any,
     password: any,
@@ -13,6 +16,10 @@ interface signupProps {
 
 function SignUp() {
     const inputRefs: any = React.useRef(null)
+    const history = useRouter();
+    const context: any = React.useContext(Appcontext)
+    const { setUserDatafromServer } = context;
+
     const [signUpData, setSignUpData] = React.useState<signupProps>({
         email: {
             value: '',
@@ -107,15 +114,48 @@ function SignUp() {
     const onFormSubmit = () => {
        
         if (signUpData.firstName.value === ''){
-            setErrorValue('firstName', 'First Name is required', true)
+             setErrorValue('firstName', 'First Name is required', true)
         }
         if (signUpData.email.value === '') {
             setErrorValue('email', 'Email is required', true)
         }
         if (signUpData.password.value === '') {
-            setErrorValue('password', 'Password is required', true)
+            return setErrorValue('password', 'Password is required', true)
         }
+
+        const copySignupObj: any = { ...signUpData }
+        const signinObjKeys: any = Object.keys(copySignupObj);
+        const checkAnyErros = signinObjKeys.some((key: any) => copySignupObj[key].error === true)
+
+        if (checkAnyErros) {
+            return alert('Please provide valid details')
+        }
+
+        const { email, password, firstName, lastName } = copySignupObj
+
+        axios.post('/signup-user', {
+            email: email.value,
+            password: password.value,
+            firstName: firstName.value,
+            lastName: lastName.value
+        }).then((res: any) => {
+            if (res.status === 200) {
+                if (res.data.success) {
+                    const { accessToken, refreshToken } = res.data.data;
+                    const jwtPayload = JSON.parse(window.atob(accessToken.split('.')[1]))
+                   
+                    Cookie.set('access', JSON.stringify(accessToken), { expires: new Date(jwtPayload.exp * 1000) })
+                    Cookie.set('refresh', JSON.stringify(refreshToken), { expires: new Date(jwtPayload.exp * 1000) })
+                    localStorage.setItem("USER", JSON.stringify(jwtPayload))
+                    setUserDatafromServer(jwtPayload)
+                    history.push('/')
+                }
+            }
+        }).catch((err: any) => {
+            alert(err?.message)
+        })
     }
+
     React.useEffect(() => {
         console.log('inputRef', inputRefs)
         inputRefs.current.focus()

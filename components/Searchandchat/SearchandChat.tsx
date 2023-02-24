@@ -6,12 +6,15 @@ import Chat from 'components/Sidebar/Conversation/Chat';
 import Search from 'components/Sidebar/Conversation/Search';
 import axios from '../../environment/axios'
 import router from 'next/router'
+import Appcontext from 'components/Context/AppContext';
 
 function SearchandChat(props: any) {
   const { handleAddUserModal, userData, getUserConversationList } = props;
   const [userList, setUserList] = React.useState([])
   const [searched, setSearched] = React.useState(false);
   const [userdatas, setUserData] = React.useState<any>(null)
+  const context: any = React.useContext(Appcontext)
+  const { user } = context;
 
   const fetchResults = (query: any) => {
     // setSearchText(query)
@@ -38,10 +41,11 @@ function SearchandChat(props: any) {
   }
 
   const createConversation = (data: any) => {
-    console.log('data', data)
+    // console.log('data', data)
     let conversationBody = {
       type: 'PRIVATE',
-      users: [userdatas._id, data._id]
+      users: [userdatas._id, data._id],
+      createdBy: userdatas._id
     }
 
     axios.post('/create-conversation', conversationBody).then((res: any) => {
@@ -50,16 +54,22 @@ function SearchandChat(props: any) {
         console.log(res.data)
         if (success === true && data !== null){
           handleAddUserModal()
-          getUserConversationList()
-          router.push(`/conversation/${data._id}`)
+          setTimeout(() => {
+            getUserConversationList(user._id)
+            router.push(`/conversation/${data._id}`)
+          },500)
+          
         }else{
           alert(message)
         }
       }else if(res.status === 200){
         const { success, data, message } = res.data;
         if(data !== null){
-          router.push(`/conversation/${data._id}`)
-          handleAddUserModal()
+          setTimeout(() => {
+            getUserConversationList(user._id)
+            router.push(`/conversation/${data._id}`)
+            handleAddUserModal()
+          }, 500)
         }
       }
     })

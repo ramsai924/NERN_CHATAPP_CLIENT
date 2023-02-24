@@ -1,5 +1,5 @@
 import React from 'react'
-import Conversation from './Conversation/Conversation';
+import Conversation from './Conversation';
 import Profile from './Profile/Index';
 import styles from '../../src/styles/Sidebar.module.css'
 
