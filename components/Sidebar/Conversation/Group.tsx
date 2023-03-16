@@ -7,7 +7,7 @@ import Chat from './Chat';
 import { styled } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
-import { Avatar, Button } from '@material-ui/core';
+import { Avatar, Button, TextField } from '@material-ui/core';
 import router from 'next/router'
 import Appcontext from 'components/Context/AppContext';
 
@@ -17,6 +17,7 @@ const ListItem = styled('li')(({ theme }) => ({
 
 function Group(props: any) {
     const { handleCreateGroupModal, getUserConversationList } = props;
+    const [groupName, setGroupName] = React.useState('');
     const [userList, setUserList] = React.useState<any>([])
     const [searched, setSearched] = React.useState(false);
     const [selectedUsers, setSecletedUsers] = React.useState<any>([]);
@@ -66,10 +67,13 @@ function Group(props: any) {
     };
 
     const createGroup = () => {
-        // console.log('data', data)
+        if (groupName === ''){
+            alert('Please provide Group Name..!!')
+            return;
+        }
         let conversationBody = {
             type: 'GROUP',
-            name: 'Test 2',
+            name: groupName,
             users: [...selectedUsers.map((usr: any) => usr._id), user._id],
             createdBy: user._id
         }
@@ -107,6 +111,13 @@ function Group(props: any) {
               handleCloseFun={handleCreateGroupModal}
               title="Create Group"
           />
+          <input 
+              type={'text'} 
+              value={groupName}
+              onChange={(e) => setGroupName(e.target.value)}
+              placeholder="Enter Group Name" 
+              style={{padding: '10px'}}
+            />
           {
             selectedUsers.length > 0 && (
                   <Paper
@@ -117,6 +128,7 @@ function Group(props: any) {
                           listStyle: 'none',
                           p: 0.5,
                           m: 0,
+                          
                       }}
                       component="ul"
                   >
@@ -126,6 +138,7 @@ function Group(props: any) {
                           return (
                               <ListItem key={data.key} style={{ width: 'auto' }}>
                                   <Chip
+                                      style={{ background: 'lightgrey', borderRadius: '10px' }}
                                       label={data?.firstName}
                                       onDelete={data.label === 'React' ? undefined : handleDelete(data)}
                                   />
