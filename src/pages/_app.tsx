@@ -7,8 +7,9 @@ import Appcontext from 'components/Context/AppContext'
 import {useRouter} from 'next/router'
 import Cookies from 'js-cookie'
 import io from 'socket.io-client'
+import axis from 'axios'
 import axios from '../../environment/axios'
-
+let source: any;
 const socket = io('http://localhost:3030')
 
 export default function App({ Component, pageProps }: any) {
@@ -16,6 +17,8 @@ export default function App({ Component, pageProps }: any) {
   const [conversationList, setUserConversationList] = React.useState<any>([])
   const history = useRouter();
   const [loadStatus, setLoadStatus] = React.useState(false)
+  source = axis.CancelToken.source();
+
   const setTokenExpire = (time: any) => {
     const timeOut: any = Math.ceil(new Date(Number(time) * 1000).getTime() - new Date().getTime());
     
@@ -63,6 +66,12 @@ export default function App({ Component, pageProps }: any) {
     if (userData !== undefined) {
       // const { exp } = userData
       setTokenExpire(userData?.exp)
+    }
+
+    return () => {
+      if (source) {
+        source.cancel("");
+      }
     }
 
   }, [])

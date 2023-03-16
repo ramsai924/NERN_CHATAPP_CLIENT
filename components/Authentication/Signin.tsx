@@ -6,6 +6,7 @@ import axios from '../../environment/axios'
 import Cookie from 'js-cookie'
 import Appcontext from 'components/Context/AppContext'
 import { useRouter } from 'next/router'
+import Cartoon from 'components/Cartoon/Cartoon'
 
 
 interface signupProps {
@@ -16,6 +17,8 @@ interface signupProps {
 function Signin(props: any) {
     const inputRefs: any = React.useRef(null)
     const context: any = React.useContext(Appcontext)
+    const [showPass, setshowPass] = React.useState(false);
+    const [type, setType] = React.useState("");
     const history = useRouter();
 
     const { setUserDatafromServer } = context;
@@ -47,7 +50,7 @@ function Signin(props: any) {
     }
 
     const onChangeKey = (e: any) => {
-
+        setType(e.target.name);
         setsignInData((prev: any) => {
             return {
                 ...prev,
@@ -121,6 +124,15 @@ function Signin(props: any) {
     }, [])
 
   return (
+    <>
+        <div style={{display: 'grid', placeItems: 'center'}}>
+            <Cartoon 
+                emaillength={signInData.email.value.length}
+                passwordlength={signInData.password.value.length}
+                type={type}
+                unhidepassword={showPass}
+             />
+        </div>
       <form className={styles.auth_form_container} onSubmit={(e: any) => {
           e.preventDefault()
           onFormSubmit()
@@ -149,7 +161,8 @@ function Signin(props: any) {
         <div className={styles.auth_form_label}>
             <Button type='submit' className={styles.auth_submit_btn}>SIGN IN</Button>
         </div>
-    </form>
+      </form>
+      </>
   )
 }
 

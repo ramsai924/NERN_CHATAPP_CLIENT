@@ -12,8 +12,8 @@ function ChatsectionHeader(props: any) {
     const [lastSeen, setLastSeen] = React.useState(null);
 
     const { socket, user } = context;
-    const { chatUser } = props;
-
+    const { chatUser, conversationData } = props;
+    console.log('chatUser', chatUser, conversationData)
     React.useEffect(() => {
         if (chatUser){
             const { lastseen } = chatUser;
@@ -39,8 +39,21 @@ function ChatsectionHeader(props: any) {
             <div className={styles.main_profile_avatar} >
                 <Avatar />
                 <div className={styles.main_name_and_content}>
-                  <p>{chatUser?.firstName} {chatUser?.lastName}</p>
-                  {isOnline ? <p>Online</p> : lastSeen && <TimeFormater date={lastSeen} chatType="CONVERSATION_DATA" />}
+                    {
+                      conversationData && conversationData?.type === 'GROUP' ? (
+                          <p>{conversationData?.name}</p>
+                      ) : (
+                          <p>{chatUser?.firstName} {chatUser?.lastName}</p>
+                      )
+                    }
+                  {
+                      conversationData && conversationData?.type === 'PRIVATE' && (
+                        <>
+                              {isOnline ? <p>Online</p> : lastSeen && <TimeFormater date={lastSeen} chatType="CONVERSATION_DATA" />}
+                        </>
+                      )
+                  }
+                  
                 </div>
             </div>
             <div className={styles.main_conversation_header_navigation}>

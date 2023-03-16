@@ -24,10 +24,11 @@ function Conversation(props: any) {
             const { avatar,_id } = user
             setImg(avatar?.location !== '' ? avatar?.location : '')
 
-            socket.on(`new_conversation_update_${_id}`, () => {
-                const audio = new Audio('https://www.zamzar.com/download.php?uid=19ca5a91354f6407677be52267cf57-f0b2d5adba511ba7&tcs=Z81&fileID=p1gpqcctn91ukdogcncth4j16u14.ogg')
-                audio.play()
+            socket.on(`new_conversation_update_${_id}`, (data: any) => {
+              console.log('render', data)
+              if (data.render){
                 getUserConversationList(user?._id)
+              }
             })
         }
     }, [user])

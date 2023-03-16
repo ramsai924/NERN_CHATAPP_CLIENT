@@ -73,7 +73,7 @@ function Main(props: any) {
 
   return (
     <div className={styles.main_container}>
-      <Headersection chatUser={chatUser} />
+      <Headersection conversationData={conversationData} chatUser={chatUser} />
       <ContextBody user={user} messages={messages} />
       <SendChat chatUser={chatUser} conversationData={conversationData} conversationId={query?.conversationId} />
     </div>

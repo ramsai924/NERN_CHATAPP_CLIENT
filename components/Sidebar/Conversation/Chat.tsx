@@ -3,6 +3,7 @@ import React from 'react'
 import styles from '../../../src/styles/Sidebar.module.css'
 import moment from 'moment';
 import TimeFormater from 'components/Reuse/TimeFormater';
+import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 
 function Chat(props: any) {
   const { time, content, data, type, functionality, functionCall } = props;
@@ -48,7 +49,17 @@ function Chat(props: any) {
     <div className={styles.chat_container} onClick={onclickHandlerFun}>
         <div className={styles.chat_avatar_content}>
         {type === 'SEARCH_LIST' && <Avatar src={profile} />}
-        {type === 'CONVERSATION_LIST' && (data.type === 'PRIVATE' ? <Avatar src={profile} /> : 'GROUP')}
+        {type === 'CONVERSATION_LIST' && (data.type === 'PRIVATE' ? <Avatar src={profile} /> : <div 
+          style={{
+            width: '50px',
+            height: '40px', 
+            display:'grid', 
+            placeItems: 'center', 
+            borderRadius: '50%',
+            background: 'lightgrey',
+          }}>
+          <PeopleAltRoundedIcon style={{color: 'white'}} />
+        </div>)}
             <div className={styles.name_and_content}>
                   <p>{name}</p>
                   {

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BaseUrl = axios.create({
+const BaseUrl: any = axios.create({
     baseURL: 'http://localhost:3030'
 })
 

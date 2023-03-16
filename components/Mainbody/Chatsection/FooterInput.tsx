@@ -6,6 +6,7 @@ import axios from '../../../environment/axios'
 
 function SendChat(props: any) {
     const [message, setMessage] = React.useState('');
+    const inputRef: any = React.useRef(null);
     const context: any = React.useContext(Appcontext)
     const { socket, user, getUserConversationList } = context
     const { conversationId, chatUser, conversationData } = props;
@@ -19,8 +20,8 @@ function SendChat(props: any) {
         try {
             const response: any = await axios.post(`/create-message`, {
                 content: message,
-                conversationId: conversationId,
-                userId: user._id,
+                conversationClientData: conversationData,
+                userData: user,
                 users: conversationData.users?.filter((usr: any) => usr._id !== user._id).map((usr1: any) => usr1._id)
             });
             if (response.status === 201) {
@@ -35,6 +36,8 @@ function SendChat(props: any) {
         } catch (err: any) {
             console.log('get conversation err : ', err)
         }
+
+        inputRef.current.focus()
     }
 
     const submitChat = (e: any) => {
@@ -45,12 +48,16 @@ function SendChat(props: any) {
         createMessage()
     }
 
+    React.useEffect(() => {
+        inputRef.current.focus()
+    }, [conversationId])
+
 
   return (
       <div className={styles.main_input_section}>
           <form onSubmit={submitChat}>
               <div>
-                  <input placeholder='send message' value={message} onChange={onChangeText} />
+                  <input ref={inputRef} placeholder='send message' value={message} onChange={onChangeText} />
               </div>
               <div>
                   <IoSend size={30} onClick={submitChat} />
