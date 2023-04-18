@@ -13,7 +13,7 @@ function ChatsectionHeader(props: any) {
 
     const { socket, user } = context;
     const { chatUser, conversationData } = props;
-    console.log('chatUser', chatUser, conversationData)
+    // console.log('chatUser', chatUser, conversationData)
     React.useEffect(() => {
         if (chatUser){
             const { lastseen } = chatUser;

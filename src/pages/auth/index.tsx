@@ -9,9 +9,10 @@ function Auth(props: any) {
   const history = useRouter()
   React.useEffect(() => {
     if (Cookies.get('access')) {
-      history.push('/')
+      // history.push('/')
     }
   }, [])
+  console.log(props)
   return (
     <>
       <Authentication checkUserData={checkUserData} styles={styles} />

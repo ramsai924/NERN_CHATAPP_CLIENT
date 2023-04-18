@@ -12,7 +12,8 @@ import axios from '../../environment/axios'
 let source: any;
 const socket = io('http://localhost:3030')
 
-export default function App({ Component, pageProps }: any) {
+export default function Apps(props: any) {
+  const { Component, pageProps } = props
   const [userData, setUserData] = React.useState<any>(null || undefined)
   const [conversationList, setUserConversationList] = React.useState<any>([])
   const history = useRouter();
@@ -97,6 +98,7 @@ export default function App({ Component, pageProps }: any) {
       )
   }
 
+  console.log('props___', props)
   
   
   return (
@@ -114,3 +116,26 @@ export default function App({ Component, pageProps }: any) {
     </>
   )
 }
+
+
+export const getServerSideProps = async () => {
+  // const response: any = await axios.get(`/get-user-conversations?${req.headers.cookie.toString().split(';')[0].trim()}`)
+  // console.log('res__________', response.data, req.headers.cookie.toString().split(';')[0].trim())
+  return {
+    props: {
+      date: 'test'
+    }
+  }
+}
+
+
+
+// export const getStaticProps = async () => {
+//   const response: any = await axis.get('http://localhost:3030/get-user-conversations')
+//   console.log('res_____________', response)
+//   return {
+//     props: {
+//       date: []
+//     }
+//   }
+// }

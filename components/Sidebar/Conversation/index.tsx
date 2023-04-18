@@ -69,3 +69,16 @@ function Conversation(props: any) {
 }
 
 export default Conversation;
+
+export const getServerSideProps = async () => {
+  const response: any = await axios.get('/get-user-conversations')
+  console.log('response________________')
+  return {
+    props: {
+      date: []
+    }
+  }
+}
+
+
+
